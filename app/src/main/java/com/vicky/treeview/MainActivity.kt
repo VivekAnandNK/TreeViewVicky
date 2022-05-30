@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         getList()
 
-        recyclerView = findViewById(R.id.recyclermain)
+        recyclerView = findViewById(R.id.rvMain)
         treeAdapter = TreeAdapter()
         recyclerView.apply {
             adapter=treeAdapter
@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                             }
 
                             treeAdapter.setTree(listOfClassification)
+                            treeAdapter.notifyDataSetChanged()
 
 
                         } catch (e: Exception) {
