@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getList()
+
 
         recyclerView = findViewById(R.id.rvMain)
         treeAdapter = TreeAdapter()
@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
             adapter=treeAdapter
             layoutManager=LinearLayoutManager(this@MainActivity)
         }
+
+        getList()
 
     }
 
