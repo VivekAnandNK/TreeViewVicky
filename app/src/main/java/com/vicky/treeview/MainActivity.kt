@@ -1,7 +1,9 @@
 package com.vicky.treeview
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +11,7 @@ import com.vicky.treeview.api.ApiClient
 import com.vicky.treeview.api.ApiRequest
 import com.vicky.treeview.api.ICResponseEnvelope
 import com.vicky.treeview.api.ServerCallback
+import com.vicky.vickytree.RxBusTreeListener
 import com.vicky.vickytree.TreeAdapter
 import com.vicky.vickytree.TreeBranchModel
 import io.reactivex.Observable
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var treeAdapter: TreeAdapter
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +42,13 @@ class MainActivity : AppCompatActivity() {
 
         getList()
 
+        RxBusTreeListener.listenDialogEvents(TreeBranchModel::class.java).subscribe ({
+
+              Toast.makeText(this,it.title,Toast.LENGTH_LONG).show()
+
+        },{
+
+        })
     }
 
 
