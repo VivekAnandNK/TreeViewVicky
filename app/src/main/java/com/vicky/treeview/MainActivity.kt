@@ -1,17 +1,18 @@
 package com.vicky.treeview
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.vicky.treeview.api.ApiClient
 import com.vicky.treeview.api.ApiRequest
 import com.vicky.treeview.api.ICResponseEnvelope
 import com.vicky.treeview.api.ServerCallback
+import com.vicky.vickytree.TreeAdapter
 import com.vicky.vickytree.TreeBranchModel
 import io.reactivex.Observable
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,11 +20,21 @@ class MainActivity : AppCompatActivity() {
 
     var formatedList = ArrayList<TreeBranchModel>()
 
+    lateinit var recyclerView: RecyclerView
+    lateinit var treeAdapter: TreeAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         getList()
+
+        recyclerView = findViewById(R.id.recyclermain)
+        treeAdapter = TreeAdapter()
+        recyclerView.apply {
+            adapter=treeAdapter
+            layoutManager=LinearLayoutManager(this@MainActivity)
+        }
 
     }
 
@@ -45,10 +56,29 @@ class MainActivity : AppCompatActivity() {
                         `object` as ICResponseEnvelope?
                     if (classification != null) {
                         try {
-                            Log.d("TAG", "onSuccess: "+classification.icResponseBody.icResponseModel.allClassifications.size)
+                            Log.d(
+                                "TAG",
+                                "onSuccess: " + classification.icResponseBody.icResponseModel.allClassifications.size
+                            )
+
+                            var listOfClassification = ArrayList<TreeBranchModel>()
+
+
+
+                            classification.icResponseBody.icResponseModel.allClassifications.forEach {
+                                var treeBranchModel = TreeBranchModel()
+                                treeBranchModel.id = it.classificationID.toString()
+                                treeBranchModel.parentId = it.parentClassificationID.toString()
+                                treeBranchModel.title = it.classificationDesc
+                                listOfClassification.add(treeBranchModel)
+                                // treeBranchModel.index=
+                            }
+
+                            treeAdapter.setTree(listOfClassification)
+
 
                         } catch (e: Exception) {
-                            Log.d("TAG", "onSuccess: "+e.toString())
+                            Log.d("TAG", "onSuccess: " + e.toString())
                         }
 
                     } else {

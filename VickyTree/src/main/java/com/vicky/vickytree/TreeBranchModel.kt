@@ -8,6 +8,6 @@ class TreeBranchModel {
 
     var title = ""
 
-    var branchList =ArrayList<TreeBranchModel>()
+    var index =""
 
 }
