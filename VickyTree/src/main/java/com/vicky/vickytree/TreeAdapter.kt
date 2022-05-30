@@ -51,6 +51,8 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
 
        var isExpanded = false
 
+        var isLoopCompleted=false
+
        var nextList =ArrayList<TreeBranchModel>()
 
         fun setTreeItem(treeModel : TreeBranchModel){
@@ -70,15 +72,19 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
         }
 
         fun onClickNextList(dataList: ArrayList<TreeBranchModel>, id: String) {
+            if (nextList.isEmpty()&&!isLoopCompleted){
+                dataList.forEach {
+                    if (it.parentId==id){
+                        nextList.add(it)
+                    }
 
-            dataList.forEach {
-                if (it.parentId==id){
-                    nextList.add(it)
                 }
+
                 if (nextList.isNotEmpty()){
                     createNextList(nextList,dataList)
                 }
             }
+
 
             if (isExpanded){
                 recyclerView.visibility=View.GONE

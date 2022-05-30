@@ -48,6 +48,8 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
 
         var isExpanded=false
 
+        var isLoopCompleted=false
+
         fun setBranchItem(branchModel:TreeBranchModel){
             rvBranch=itemView.findViewById(R.id.rvbranch)
             rootView = itemView.findViewById(R.id.branchConstrain)
@@ -65,7 +67,7 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
 
         fun onClickNextList(dataList: ArrayList<TreeBranchModel>, id: String) {
 
-            if (nextList.isEmpty()){
+            if (nextList.isEmpty()&&!isLoopCompleted){
                 dataList.forEach {
                     if (it.parentId==id){
                         nextList.add(it)
