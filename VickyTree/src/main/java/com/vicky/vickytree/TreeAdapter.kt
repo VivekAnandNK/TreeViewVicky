@@ -4,6 +4,7 @@ package com.vicky.vickytree
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,12 +47,19 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
        lateinit var rootView :ConstraintLayout
        lateinit var recyclerView: RecyclerView
        lateinit var branchAdapter: BranchAdapter
+       lateinit var tvTitle : TextView
+
+       var isExpanded = false
 
        var nextList =ArrayList<TreeBranchModel>()
 
         fun setTreeItem(treeModel : TreeBranchModel){
             rootView = itemView.findViewById(R.id.treeConstrain)
             recyclerView=itemView.findViewById(R.id.rvTree)
+            tvTitle=itemView.findViewById(R.id.tvTree)
+
+            tvTitle.setText(treeModel.title)
+
             branchAdapter= BranchAdapter()
             recyclerView.apply {
                 layoutManager=LinearLayoutManager(itemView.context)
@@ -70,6 +78,11 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
             }
             if (nextList.isNotEmpty()){
                 createNextList(nextList,dataList)
+            }
+            if (isExpanded){
+                recyclerView.visibility=View.GONE
+            }else if (!isExpanded&&nextList.isNotEmpty()){
+                recyclerView.visibility=View.VISIBLE
             }
 
         }

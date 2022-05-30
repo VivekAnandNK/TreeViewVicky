@@ -3,9 +3,11 @@ package com.vicky.vickytree
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 
 class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
 
@@ -41,10 +43,17 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
         lateinit var rootView:ConstraintLayout
        lateinit var rvBranch : RecyclerView
         lateinit var branchAdapter: BranchAdapter
+        lateinit var tvTitle : TextView
         var nextList =ArrayList<TreeBranchModel>()
+
+        var isExpanded=false
+
         fun setBranchItem(branchModel:TreeBranchModel){
             rvBranch=itemView.findViewById(R.id.rvbranch)
             rootView = itemView.findViewById(R.id.branchConstrain)
+            tvTitle=itemView.findViewById(R.id.tvBranch)
+
+            tvTitle.setText(branchModel.title)
 
             branchAdapter= BranchAdapter()
             rvBranch.apply {
@@ -63,7 +72,16 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
                     }
                 }
             }
+            if (nextList.isNotEmpty()){
                 createNextList(nextList,dataList)
+            }
+
+
+            if (isExpanded){
+                rvBranch.visibility=View.GONE
+            }else if (!isExpanded&&nextList.isNotEmpty()){
+                rvBranch.visibility=View.VISIBLE
+            }
 
         }
 
