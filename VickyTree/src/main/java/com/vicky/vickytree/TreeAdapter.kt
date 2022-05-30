@@ -58,6 +58,7 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
                 adapter=branchAdapter
             }
 
+
         }
 
         fun onClickNextList(dataList: ArrayList<TreeBranchModel>, id: String) {
