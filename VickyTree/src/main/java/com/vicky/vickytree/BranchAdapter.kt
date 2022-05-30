@@ -7,8 +7,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.leader.eamana.helper.RxBus
-import org.w3c.dom.Text
 
 class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
 
@@ -90,7 +88,7 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
                 rvBranch.visibility=View.VISIBLE
             }
 
-            RxBus.createDialogEvent(branchModel)
+            RxBusTreeListener.createDialogEvent(branchModel)
 
         }
 

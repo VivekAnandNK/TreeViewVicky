@@ -1,9 +1,9 @@
-package com.leader.eamana.helper
+package com.vicky.vickytree
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-object RxBus {
+object RxBusTreeListener {
 
     private val nextClickAction = PublishSubject.create<Any>()
 
