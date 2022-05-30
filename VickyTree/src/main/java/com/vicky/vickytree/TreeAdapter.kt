@@ -1,19 +1,40 @@
 package com.vicky.vickytree
 
+
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 
 class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
 
-    var treeList = ArrayList<TreeModel>()
+    var treeList = ArrayList<TreeBranchModel>()
+    var dataList = ArrayList<TreeBranchModel>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TreeViewHolder {
+    fun setTree(treeBranchList : ArrayList<TreeBranchModel>){
+
+
+        treeBranchList.forEach {
+            if (it.parentId.isNullOrEmpty()){
+                treeList.add(it)
+            }
+            this.dataList.add(it)
+        }
 
     }
 
-    override fun onBindViewHolder(holder: TreeViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TreeViewHolder {
+        return TreeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tree_item, parent, false))
+    }
 
+    override fun onBindViewHolder(holder: TreeViewHolder, position: Int) {
+        holder.setTreeItem(treeList[position])
+        holder.rootView.setOnClickListener {
+            holder.onClickNextList(dataList,treeList[position].id)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -22,6 +43,42 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
 
 
     class TreeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+       lateinit var rootView :ConstraintLayout
+       lateinit var recyclerView: RecyclerView
+       lateinit var branchAdapter: BranchAdapter
 
+       var nextList =ArrayList<TreeBranchModel>()
+
+        fun setTreeItem(treeModel : TreeBranchModel){
+            rootView = itemView.findViewById(R.id.treeConstrain)
+            recyclerView=itemView.findViewById(R.id.rvTree)
+            branchAdapter= BranchAdapter()
+            recyclerView.apply {
+                layoutManager=LinearLayoutManager(itemView.context)
+                adapter=branchAdapter
+            }
+
+        }
+
+        fun onClickNextList(dataList: ArrayList<TreeBranchModel>, id: String) {
+
+            dataList.forEach {
+                if (it.parentId==id){
+                    nextList.add(it)
+                }
+            }
+            if (nextList.isNotEmpty()){
+                createNextList(nextList,dataList)
+            }
+
+        }
+
+        fun createNextList(
+            nextList: ArrayList<TreeBranchModel>,
+            dataList: ArrayList<TreeBranchModel>
+        ) {
+            branchAdapter.setBranch(nextList,dataList)
+            branchAdapter.notifyDataSetChanged()
+        }
     }
 }
