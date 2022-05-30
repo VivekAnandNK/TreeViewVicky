@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.leader.eamana.helper.RxBus
 import org.w3c.dom.Text
 
 class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
@@ -44,7 +45,9 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
        lateinit var rvBranch : RecyclerView
         lateinit var branchAdapter: BranchAdapter
         lateinit var tvTitle : TextView
+        lateinit var branchModel: TreeBranchModel
         var nextList =ArrayList<TreeBranchModel>()
+
 
         var isExpanded=false
 
@@ -62,6 +65,7 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
                 layoutManager= LinearLayoutManager(itemView.context)
                 adapter=branchAdapter
             }
+            this.branchModel=branchModel
 
         }
 
@@ -85,6 +89,8 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
             }else if (!isExpanded&&nextList.isNotEmpty()){
                 rvBranch.visibility=View.VISIBLE
             }
+
+            RxBus.createDialogEvent(branchModel)
 
         }
 
