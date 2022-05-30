@@ -71,10 +71,11 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
                         nextList.add(it)
                     }
                 }
+                if (nextList.isNotEmpty()){
+                    createNextList(nextList,dataList)
+                }
             }
-            if (nextList.isNotEmpty()){
-                createNextList(nextList,dataList)
-            }
+
 
 
             if (isExpanded){

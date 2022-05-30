@@ -75,10 +75,11 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
                 if (it.parentId==id){
                     nextList.add(it)
                 }
+                if (nextList.isNotEmpty()){
+                    createNextList(nextList,dataList)
+                }
             }
-            if (nextList.isNotEmpty()){
-                createNextList(nextList,dataList)
-            }
+
             if (isExpanded){
                 recyclerView.visibility=View.GONE
             }else if (!isExpanded&&nextList.isNotEmpty()){
