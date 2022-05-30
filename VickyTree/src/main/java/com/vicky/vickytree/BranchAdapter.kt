@@ -44,9 +44,8 @@ class BranchAdapter : RecyclerView.Adapter<BranchAdapter.BranchViewHolder>() {
         var nextList =ArrayList<TreeBranchModel>()
         fun setBranchItem(branchModel:TreeBranchModel){
             rvBranch=itemView.findViewById(R.id.rvbranch)
-
             rootView = itemView.findViewById(R.id.branchConstrain)
-            rvBranch=itemView.findViewById(R.id.rvTree)
+
             branchAdapter= BranchAdapter()
             rvBranch.apply {
                 layoutManager= LinearLayoutManager(itemView.context)

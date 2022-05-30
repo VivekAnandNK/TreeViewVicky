@@ -18,7 +18,7 @@ class TreeAdapter : RecyclerView.Adapter<TreeAdapter.TreeViewHolder>() {
 
 
         treeBranchList.forEach {
-            if (it.parentId.isNullOrEmpty()){
+            if (it.parentId=="0"){
                 treeList.add(it)
             }
             this.dataList.add(it)
